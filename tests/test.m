@@ -1,4 +1,16 @@
 SetDirectory[ParentDirectory @ Directory[]];
 << TNFCount`
 
-Print @ TNF["ACGTAGCGTGTACGTACGTACGTACGTAGCTAGCGCTAAGCTAGCGACTAGCTAGCTCTACGTACGGCTAGCTAGCTAG"]
+sequence = "AAAACAA";
+sequences = Import["tests/BS.fasta"];
+
+Print @ Timing @ TNF[sequence]
+Print @ Timing @ BidirectionalTNF[sequence]
+Print @ Timing @ CanonicalTNF[sequence]
+
+Print @ ContigsTNF[sequences]
+Print @ BidirectionalContigsTNF[sequences]
+Print @ CanonialContigsTNF[sequences]
+
+Print @ TNFSymbols[]
+Print @ CanonicalSymbols[]

@@ -53,9 +53,14 @@ THE SOFTWARE.
 
 BeginPackage["TNFCount`"]
 
-Unprotect[TNF, ContigsTNF]
+Unprotect[
+  TNF, BidirectionalTNF, CanonicalTNF,
+  ContigsTNF, BidirectionalContigsTNF, CanonialContigsTNF,
+  TNFSymbols, CanonicalSymbols
+]
 
 Begin["Private`"]
+
 
 PairedSequence[sequence_String] := 
 StringReplace[
@@ -73,17 +78,48 @@ Sort[{sequence, PairedSequence[sequence]}][[1]];
 (* All tetranucleotide possibilities *)
 symbols = Apply[StringJoin, Tuples[{"A", "C", "G", "T"}, 4], {1}];
 
+(* Canonical symbols *)
+canonicalSymbols = Union[CanonicalForm /@ symbols];
+
+(* Gather the symbols with the same canonical froms *)
+canonicalGathering = 
+Gather[symbols, CanonicalForm[#1] == CanonicalForm[#2] &] /. 
+  Apply[Rule, Transpose[{symbols, Range[Length[symbols]]}], {1}];
+
 TNF[sequence_String] :=
 Normal[
   Counts[
-    CanonicalForm /@ StringPartition[sequence, 4, 1]
+    StringPartition[sequence, 4, 1]
   ][[symbols]]
 ][[All, 2]] /. {_Missing -> 0};
 
-ContigsTNF[sequences_List] := Plus @@ (TNF /@ sequences);
+BidirectionalTNF[sequence_String] :=
+Plus @@ {TNF[sequence], TNF[PairedSequence[sequence]]};
+
+CanonicalTNF[sequence_String] :=
+Total /@ (canonicalGathering /. Apply[Rule, Transpose[{Range[256], TNF[sequence]}], {1}]);
+
+ContigsTNF[sequences_List] :=
+Plus @@ (TNF /@ sequences);
+
+BidirectionalContigsTNF[sequences_List] :=
+Plus @@ (BidirectionalTNF /@ sequences);
+
+CanonialContigsTNF[sequences_List] :=
+Plus @@ (CanonicalTNF /@ sequences);
+
+
+TNFSymbols[___] := symbols;
+
+CanonicalSymbols[___] := canonicalSymbols;
+
 
 End[];
 
-Protect[TNF, ContigsTNF]
+Protect[
+  TNF, BidirectionalTNF, CanonicalTNF,
+  ContigsTNF, BidirectionalContigsTNF, CanonialContigsTNF,
+  TNFSymbols, CanonicalSymbols
+]
 
 EndPackage[];
