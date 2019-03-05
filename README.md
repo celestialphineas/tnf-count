@@ -16,7 +16,7 @@ Print @ CanonicalTNF[sequence]
 
 Print @ ContigsTNF[sequences]
 Print @ BidirectionalContigsTNF[sequences]
-Print @ CanonialContigsTNF[sequences]
+Print @ CanonicalContigsTNF[sequences]
 
 Print @ TNFSymbols[]
 Print @ CanonicalSymbols[]

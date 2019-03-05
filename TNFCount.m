@@ -55,7 +55,7 @@ BeginPackage["TNFCount`"]
 
 Unprotect[
   TNF, BidirectionalTNF, CanonicalTNF,
-  ContigsTNF, BidirectionalContigsTNF, CanonialContigsTNF,
+  ContigsTNF, BidirectionalContigsTNF, CanonicalContigsTNF,
   TNFSymbols, CanonicalSymbols
 ]
 
@@ -105,7 +105,7 @@ Plus @@ (TNF /@ sequences);
 BidirectionalContigsTNF[sequences_List] :=
 Plus @@ (BidirectionalTNF /@ sequences);
 
-CanonialContigsTNF[sequences_List] :=
+CanonicalContigsTNF[sequences_List] :=
 Plus @@ (CanonicalTNF /@ sequences);
 
 
@@ -118,7 +118,7 @@ End[];
 
 Protect[
   TNF, BidirectionalTNF, CanonicalTNF,
-  ContigsTNF, BidirectionalContigsTNF, CanonialContigsTNF,
+  ContigsTNF, BidirectionalContigsTNF, CanonicalContigsTNF,
   TNFSymbols, CanonicalSymbols
 ]
 
